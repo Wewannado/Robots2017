@@ -1,4 +1,4 @@
-package com.exemple.profedam.aboutrobots2017;
+package com.exemple.rogergcoscojuela.aboutrobots2017;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

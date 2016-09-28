@@ -1,4 +1,4 @@
-package com.exemple.profedam.aboutrobots2017;
+package com.exemple.rogergcoscojuela.aboutrobots2017;
 
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +36,11 @@ public class RobotActivity extends AppCompatActivity implements View.OnClickList
         ImageButton btnSalir = (ImageButton) findViewById(R.id.imageButtonSalir);
         btnSalir.setOnClickListener(this);
 
+        if (savedInstanceState != null){
+            this.numeroVeces= savedInstanceState.getInt("numeroVeces");
+        }
+        refrescaPantalla();
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -49,28 +54,28 @@ public class RobotActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
 
         if (v.getId()==R.id.btnNoTocar) {
-            Button btnNoTocar = (Button) v;
-            TextView cajaTexto = (TextView) findViewById(R.id.textView);
-            ImageView imageRob = (ImageView) findViewById(R.id.imageView);
             numeroVeces++;
-            if (numeroVeces == 1) {
-                btnNoTocar.setText("¡Que no me toques!!!");
-                cajaTexto.setText("Parece ser que los humanos no son muy inteligentes");
-                imageRob.setImageResource(R.mipmap.robot_enfadado);
-            }
-
-            if (numeroVeces == 2) {
-                btnNoTocar.setVisibility(View.INVISIBLE);
-                cajaTexto.setText("Te lo advertí!");
-                imageRob.setImageResource(R.mipmap.robot_fumando);
-            }
+            refrescaPantalla();
         }
         if (v.getId() == R.id.imageButtonSalir) {
             finish();
-
+        }
+    }
+    public void refrescaPantalla(){
+        Button btnNoTocar = (Button) findViewById(R.id.btnNoTocar);
+        TextView cajaTexto = (TextView) findViewById(R.id.textView);
+        ImageView imageRob = (ImageView) findViewById(R.id.imageView);
+        if (numeroVeces == 1) {
+            btnNoTocar.setText("¡Que no me toques!!!");
+            cajaTexto.setText("Parece ser que los humanos no son muy inteligentes");
+            imageRob.setImageResource(R.mipmap.robot_enfadado);
         }
 
-
+        if (numeroVeces == 2) {
+            btnNoTocar.setVisibility(View.INVISIBLE);
+            cajaTexto.setText("Te lo advertí!");
+            imageRob.setImageResource(R.mipmap.robot_fumando);
+        }
     }
 
     /**
@@ -88,6 +93,13 @@ public class RobotActivity extends AppCompatActivity implements View.OnClickList
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putInt("numeroVeces", this.numeroVeces);
+    }
+
 
     @Override
     public void onStart() {
